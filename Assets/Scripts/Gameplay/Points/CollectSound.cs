@@ -18,14 +18,14 @@ public class CollectSound : MonoBehaviour
 
 	public void OnTriggerEnter2D(Collider2D collision)
 	{
-        if (audioSource == null) return;
+       /* if (audioSource == null) return;
 
         if (collision.CompareTag("Player"))
         {
+            
             Debug.Log("Sonido Moneda");
-            //audioSource.PlayOneShot(audioSFX);
             AudioSource.PlayClipAtPoint(audioSFX, transform.position);
-            Destroy(gameObject);
-        }
+            
+        }*/
 	}
 }

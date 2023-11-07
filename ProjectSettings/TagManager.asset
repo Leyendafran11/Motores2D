@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
+  - GameData
+  - PlayerInput
   layers:
   - Default
   - TransparentFX
