@@ -73,9 +73,9 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
 		//rb.velocity = new Vector2(inputX * speed * stats.aceleration, rb.velocity.y);
 
 		Vector3 vel = rb.velocity;
-		if (vel.magnitude > stats.maxSpeed)
+		if (vel.magnitude > stats.maxSpeed * modified)
 		{
-			rb.velocity = vel.normalized * stats.maxSpeed;
+			rb.velocity = vel.normalized * stats.maxSpeed * modified;
 		}
 
 		Vector2 aux = sprite.transform.localScale;
