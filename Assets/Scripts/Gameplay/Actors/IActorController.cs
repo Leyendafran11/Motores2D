@@ -13,5 +13,5 @@ public interface IActorController
 	//Metodos gestion HP
 	public void onHeal(float heal);
 
-	public void onDamagae(float damage);
+	public void onDamage(float damage);
 }
