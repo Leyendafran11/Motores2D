@@ -14,14 +14,21 @@ public class addPoints : MonoBehaviour
 
 	private void Awake()
 	{
-		data = GameObject.FindGameObjectWithTag("GameData").GetComponent<Data>();
+		if (GameObject.FindGameObjectWithTag("GameData"))
+		{
+			data = GameObject.FindGameObjectWithTag("GameData").GetComponent<Data>();
+		}
+		else
+		{
+			Debug.Log("Error: GameData Object/tag not found");
+		}
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.CompareTag("Player")){
 
-			data.addPoints(points);
+			data?.addPoints(points);
 			pointCollectEvent.Invoke();
 			Destroy(gameObject);
 		}

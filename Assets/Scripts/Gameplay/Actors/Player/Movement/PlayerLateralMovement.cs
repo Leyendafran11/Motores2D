@@ -4,14 +4,18 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerLateralMovement : MonoBehaviour, IActorController
+public class PlayerLateralMovement : MonoBehaviour
 {
-    //Referencia a los Stats
-    playerStats stats;
+	//Referencia a los Stats
+	playerStats stats;
 
-	//Referencia al player input
-	PlayerInput playerInput;
+	//Referencia al Player Controller
+	PlayerController playerController;
+
+	//Eventos de movimiento
+	public UnityEvent onJump;
 
 	InputAction m_move;
 	InputAction m_jump;
@@ -25,17 +29,15 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
     SpriteRenderer sprite;
 	Animator animator;
 
-	[Header("Eventos generales")]
-	public UnityEvent onDie = new();
-
 	void Awake(){
 
-        //Referencia a componentes externos
-        stats = GameObject.FindGameObjectWithTag("GameData").GetComponent<Data>().stats;
+		//Referencia a componentes externos
+		playerController = GetComponent<PlayerController>();
+		stats = (playerStats) playerController.getStats();
 
-		playerInput = GameObject.FindGameObjectWithTag("PlayerInput").GetComponent<PlayerInput>();
-		m_move = playerInput.actions["Move"];
-		m_jump = playerInput.actions["Jump"];
+		
+		m_move = playerController.playerInput.actions["Move"];
+		m_jump = playerController.playerInput.actions["Jump"];
 
 
 
@@ -43,12 +45,6 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
 		rb = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
 		animator = GetComponentInChildren<Animator>();
-
-		//Me subscribo a los cambios de HP de los stats
-		stats.HP.RestartStats();
-		stats.HP.OnIndicatorChange.AddListener(OnHPUpdate);
-
-
 	}
 
     // Update is called once per frame
@@ -62,7 +58,6 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
 		LateralMove();
 		Flip();
 		Jump();
-
 		//Actualizamos el animator
 		UpdateAnimator();
 
@@ -92,11 +87,6 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
 		{
 			rb.velocity = vel.normalized * stats.maxSpeed * modified;
 		}
-
-
-		
-		
-
 	}
 	//Flipear el sprite para el lado correspondiente
 	private void Flip()
@@ -113,7 +103,8 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
     {
 		if (m_jump.triggered && (isGrounded || doubleJump))
 		{
-			
+			onJump.Invoke();
+
 			rb.velocity = new Vector2(rb.velocity.x, 0);
 			rb.AddForce(Vector2.up * stats.jumpSpeed, ForceMode2D.Impulse);
 
@@ -127,28 +118,15 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
 			}
 
 		}
-
 		
 	}
-
-	private void OnHPUpdate(float value)
-	{
-		if (value <= 0)
-		{
-			onDie.Invoke();
-		}
-	}
-
-
 	private void OnCollisionEnter2D(Collision2D collision){
 
         if (collision.gameObject.CompareTag("Floor")){
 
             isGrounded = true;
 
-        }
-
-		
+        }	
 	}
 
 	private void OnCollisionExit2D(Collision2D collision){
@@ -158,28 +136,5 @@ public class PlayerLateralMovement : MonoBehaviour, IActorController
 			isGrounded = false;
 
 		}
-
-
 	}
-
-	public Stats getStats()
-	{
-		return stats;
-	}
-
-	public GameObject getGameObject()
-	{
-		return gameObject;
-	}
-
-	public void onHeal(float heal)
-	{
-		throw new System.NotImplementedException();
-	}
-
-	public void onDamage(float damage)
-	{
-		stats.HP.CurrentValue -= damage;
-	}
-
 }
