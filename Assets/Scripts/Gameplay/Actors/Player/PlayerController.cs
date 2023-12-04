@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour, IActorController
 {
 
 	//Referencia a los Stats
 	[SerializeField]playerStats stats;
+	private SpriteRenderer ren;
 
 	//Referencia al player input
 	[HideInInspector]public PlayerInput playerInput;
@@ -29,7 +31,8 @@ public class PlayerController : MonoBehaviour, IActorController
 		{
 			Debug.Log("Error: GameData Object/tag not found");
 		}
-		
+
+		ren = GetComponentInChildren<SpriteRenderer>();
 
 		//Obtengo el Player Input
 		playerInput = GameObject.FindGameObjectWithTag("PlayerInput").GetComponent<PlayerInput>();
@@ -64,5 +67,33 @@ public class PlayerController : MonoBehaviour, IActorController
 	public void onDamage(float damage)
 	{
 		stats.HP.CurrentValue -= damage;
+
+		if (stats.HP.CurrentValue > 0) StartCoroutine(TemporalVulnerability());
 	}
+
+	public IEnumerator TemporalVulnerability()
+	{
+
+		//Activar la invulnerabilidad utilizando capas
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
+		//Cambios al sprite para que el usuario sepa q es invulnerable 
+		Color colorBase = ren.color;
+
+		ren.color = stats.invulnerabilityColor;
+
+		//Esperar el tiempo de la invulnerabilidad
+		yield return new WaitForSecondsRealtime(stats.invulneraniltySeconds);
+
+		//Deshacer cambios del sprite
+		ren.color = colorBase;
+
+		//Desactivar invulnerabilidad
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+		yield return null;
+
+
+	}
+
+	
 }

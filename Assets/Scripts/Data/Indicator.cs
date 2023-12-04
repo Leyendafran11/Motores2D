@@ -74,7 +74,11 @@ public class Indicator
             currentValue = Mathf.Clamp(value, 0.0f, maxValue);
 
             //1. Unity Event
-            OnIndicatorChange.Invoke(currentValue);
+            try
+            {
+                OnIndicatorChange.Invoke(GetPercentage());
+            }
+            catch (Exception e) { Debug.Log("An event attached to indidcator have failed"); }
 
             //2. Delegate
             //if (OnIndicatorChange != null)

@@ -8,6 +8,8 @@ TagManager:
   - GameData
   - PlayerInput
   - Enemy
+  - HUD/Canvas
+  - HUD/HP
   layers:
   - Default
   - TransparentFX
@@ -44,4 +46,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: effects
+    uniqueID: 2328376721
     locked: 0

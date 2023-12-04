@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public void levelRestart()
+    public void levelRestart(float seconds)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine("restart", seconds);
     }
+
+    public IEnumerator restart()
+    {
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        yield return null;
+	}
 }
