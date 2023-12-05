@@ -5,8 +5,12 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
+[ExecuteInEditMode]
 public class PlayerController : MonoBehaviour, IActorController
 {
+
+	[Header("Player Info")]
+	[SerializeField] public PlayerDataSO playerData;
 
 	//Referencia a los Stats
 	[SerializeField]playerStats stats;
@@ -32,6 +36,8 @@ public class PlayerController : MonoBehaviour, IActorController
 			Debug.Log("Error: GameData Object/tag not found");
 		}
 
+		playerData?.Initialize(this);
+
 		ren = GetComponentInChildren<SpriteRenderer>();
 
 		//Obtengo el Player Input
@@ -40,6 +46,11 @@ public class PlayerController : MonoBehaviour, IActorController
 		//Me subscribo a los cambios de HP de los stats
 		stats.HP.RestartStats();
 		stats.HP.OnIndicatorChange.AddListener(OnHPUpdate);
+	}
+
+	private void OnRenderObject()
+	{
+		playerData?.Initialize(this);	
 	}
 
 	private void OnHPUpdate(float value)

@@ -129,6 +129,17 @@ public class PlayerLateralMovement : MonoBehaviour
         }	
 	}
 
+	private void OnCollisionStay2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Floor"))
+		{
+
+			isGrounded = true;
+
+		}
+	}
+
+
 	private void OnCollisionExit2D(Collision2D collision){
 
 		if (collision.gameObject.CompareTag("Floor")){

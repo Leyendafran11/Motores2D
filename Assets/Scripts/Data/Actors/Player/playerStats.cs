@@ -16,5 +16,18 @@ public class playerStats : Stats
 	[Header("Invulnerability")]
     public Color invulnerabilityColor = Color.red;
     [Range(0, 3)] public float invulneraniltySeconds = 1f;
+
+
+	public void Update(playerStats newStats)
+	{
+		HP.Update(newStats.HP);
+		aceleration = newStats.aceleration;
+		maxSpeed = newStats.maxSpeed;
+		airMomentum = newStats.airMomentum;	
+		jumpSpeed = newStats.jumpSpeed;	
+		invulnerabilityColor = newStats.invulnerabilityColor;
+		invulneraniltySeconds = newStats.invulneraniltySeconds;
+		basicAttack = newStats.basicAttack;	
+	}
         
 }
