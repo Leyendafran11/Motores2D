@@ -7,11 +7,12 @@ public class GameController : MonoBehaviour
 {
     public void levelRestart(float seconds)
     {
-        StartCoroutine("restart", seconds);
+        StartCoroutine(restart(seconds));
     }
 
-    public IEnumerator restart()
+    public IEnumerator restart(float seconds)
     {
+        yield return new WaitForSeconds(seconds);
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         yield return null;
 	}

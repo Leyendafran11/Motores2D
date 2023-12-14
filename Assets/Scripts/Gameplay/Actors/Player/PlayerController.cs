@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour, IActorController
 	[Header("Eventos generales")]
 	public UnityEvent onDie = new();
 
+
 	private void Awake()
 	{
 
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour, IActorController
 		if (GameObject.FindGameObjectWithTag("GameData"))
 		{
 			//Referencia a componentes externos
-			stats = GameObject.FindGameObjectWithTag("GameData").GetComponent<Data>().stats;
+			//stats = GameObject.FindGameObjectWithTag("GameData").GetComponent<Data>().stats;
 		}
 		else
 		{
@@ -77,14 +78,14 @@ public class PlayerController : MonoBehaviour, IActorController
 
 	public void onDamage(float damage)
 	{
+		if (cor!=null) return;
 		stats.HP.CurrentValue -= damage;
-
-		if (stats.HP.CurrentValue > 0) StartCoroutine(TemporalVulnerability());
+		if (stats.HP.CurrentValue > 0) cor= StartCoroutine(TemporalVulnerability());
 	}
 
+	Coroutine cor;
 	public IEnumerator TemporalVulnerability()
 	{
-
 		//Activar la invulnerabilidad utilizando capas
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour, IActorController
 
 		//Desactivar invulnerabilidad
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+		cor = null;
 		yield return null;
 
 

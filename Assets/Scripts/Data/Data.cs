@@ -8,8 +8,8 @@ public class Data : MonoBehaviour
 	[Header("Sistema de puntos")]
     [SerializeField]private int points;
 
-	[Header("Sistema de Stats")]
-	[SerializeField]public playerStats stats;
+	//[Header("Sistema de Stats")]
+	//[SerializeField]public playerStats stats;
 
 
 	private void Awake()

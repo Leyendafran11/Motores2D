@@ -30,7 +30,7 @@ public class addPoints : MonoBehaviour
 
 			data?.addPoints(points);
 			pointCollectEvent.Invoke();
-			Destroy(gameObject);
+			Destroy(gameObject,0.1f);
 		}
 
 	}

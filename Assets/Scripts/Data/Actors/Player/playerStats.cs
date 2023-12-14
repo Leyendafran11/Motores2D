@@ -7,7 +7,7 @@ public class playerStats : Stats
 {
 	[Header("Movement")]
 	[Range(0, 1)] public float airMomentum;
-	[Range(5, 10)] public float aceleration;
+	[Range(5, 20)] public float aceleration;
 	public float maxSpeed = 10;
 
 	[Header("Jump")]
@@ -27,7 +27,9 @@ public class playerStats : Stats
 		jumpSpeed = newStats.jumpSpeed;	
 		invulnerabilityColor = newStats.invulnerabilityColor;
 		invulneraniltySeconds = newStats.invulneraniltySeconds;
-		basicAttack = newStats.basicAttack;	
+		basicAttack = newStats.basicAttack;
+		action1 = newStats.action1;
+		action2 = newStats.action2;	
 	}
         
 }

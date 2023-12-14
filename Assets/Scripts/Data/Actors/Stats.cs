@@ -11,6 +11,8 @@ public class Stats
 
     [Header("Attack")]
     public float basicAttack;
+    public GameObject action1;
+    public GameObject action2;
 
   
 
@@ -18,5 +20,7 @@ public class Stats
     {
         HP.RestartStats();
     }
+	
+
 
 }

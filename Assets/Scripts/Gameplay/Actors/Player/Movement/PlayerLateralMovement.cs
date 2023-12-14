@@ -91,6 +91,8 @@ public class PlayerLateralMovement : MonoBehaviour
 	//Flipear el sprite para el lado correspondiente
 	private void Flip()
 	{
+		if (Mathf.Abs(rb.velocity.x) < 0.2) return;
+
 		Vector2 aux = sprite.transform.localScale;
 
 		if (rb.velocity.x > 0) aux.x = Mathf.Abs(aux.x);

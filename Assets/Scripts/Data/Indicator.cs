@@ -78,7 +78,7 @@ public class Indicator
             {
                 OnIndicatorChange.Invoke(GetPercentage());
             }
-            catch (Exception e) { Debug.Log("An event attached to indidcator have failed"); }
+            catch (Exception e) { Debug.Log("An event attached to indidcator have failed"+e.Message); }
 
             //2. Delegate
             //if (OnIndicatorChange != null)

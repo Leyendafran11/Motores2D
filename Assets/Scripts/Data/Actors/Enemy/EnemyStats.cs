@@ -10,5 +10,12 @@ public class EnemyStats : Stats
 
 	public float maxSpeed = 10;
 
+	public void Update(EnemyStats newStats)
+	{
+		HP.Update(newStats.HP);
+		maxSpeed = newStats.maxSpeed;
+		basicAttack = newStats.basicAttack;
+	}
+
 
 }

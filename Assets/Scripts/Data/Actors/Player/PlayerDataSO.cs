@@ -11,8 +11,8 @@ public class PlayerDataSO : ScriptableObject
     public AnimatorController animator;
     public Color color = Color.white;
 
-    [Header("Stats")]
-    public playerStats playerStats;
+   // [Header("Stats")]
+   // public playerStats playerStats;
 
     public void Initialize(PlayerController player)
     {
@@ -24,10 +24,36 @@ public class PlayerDataSO : ScriptableObject
         ren.color = color;
         ani.runtimeAnimatorController = animator;
 
+		if (ren)
+		{
+			if (sprite != null) ren.sprite = sprite;
+			ren.color = color;
+		}
+		if (ani)
+		{
+			if (animator != null) ani.runtimeAnimatorController = animator;
+		}
 
-        playerStats gStats = (playerStats) player.getStats();
+		Collider2D col = g.GetComponentInChildren<Collider2D>();
+		if (col)
+		{
+			if (col is BoxCollider2D boxCol)
+			{
+				boxCol.size = new Vector2(ren.bounds.size.x, ren.bounds.size.y);
+				boxCol.offset = new Vector2(ren.bounds.center.x - g.transform.position.x, ren.bounds.center.y - g.transform.position.y);
+			}
 
-        gStats.Update(playerStats);
+			if (col is CapsuleCollider2D capCol)
+			{
+				capCol.size = new Vector2(ren.bounds.size.x, ren.bounds.size.y);
+				capCol.offset = new Vector2(ren.bounds.center.x - g.transform.position.x, ren.bounds.center.y - g.transform.position.y);
+			}
+		}
+
+
+		//playerStats gStats = (playerStats) player.getStats();
+
+       // gStats.Update(playerStats);
 
     }
     

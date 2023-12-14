@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[ExecuteInEditMode]
 public class EnemyController : MonoBehaviour, IActorController
 {
 
 	[SerializeField] EnemyStats stats;
+	[SerializeField] public EnemyDataSO enemyData;
 
 	[Header("Eventos generales")]
 	public UnityEvent onDie = new();
@@ -15,6 +17,11 @@ public class EnemyController : MonoBehaviour, IActorController
 	{
 		//Me subscribo a los cambios de HP de los stats
 		stats.HP.OnIndicatorChange.AddListener(OnHPUpdate);
+	}
+
+	private void OnRenderObject()
+	{
+		enemyData?.Initialize(this);
 	}
 
 	private void OnHPUpdate(float value)
